@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download RuneOfLua</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: block;
+            width: 100%;
+        }
+
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Download RuneOfLua</h1>
+        <p>Please type the following statement verbatim to download the file:</p>
+        <p><strong>"I will never report bugs again so long as my game remains modded, nor try to ask Zack anything or contact him in any way about the game regarding mods, as mods are completely outside of his ability to manage anything and he cannot help me with my game now that it is modded."</strong></p>
+        <textarea id="userInput" placeholder="Type the statement here"></textarea>
+        <button id="downloadBtn" disabled>Download RuneOfLua</button>
+    </div>
+
+    <script>
+        const requiredText = "I will never report bugs again so long as my game remains modded, nor try to ask Zack anything or contact him in any way about the game regarding mods, as mods are completely outside of his ability to manage anything and he cannot help me with my game now that it is modded.";
+        const userInput = document.getElementById('userInput');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // Disable copy-paste
+        userInput.onpaste = function(e) {
+            e.preventDefault();
+            alert("Copy-paste is not allowed. Please type the statement manually.");
+        };
+
+        userInput.oninput = function() {
+            if (userInput.value === requiredText) {
+                downloadBtn.disabled = false;
+            } else {
+                downloadBtn.disabled = true;
+            }
+        };
+
+        downloadBtn.onclick = function() {
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'runeOfLua.rar', true);
+            xhr.responseType = 'blob';
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const url = window.URL.createObjectURL(xhr.response);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'runeOfLua.rar';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            };
+            xhr.send();
+        };
+    </script>
+</body>
+</html>
